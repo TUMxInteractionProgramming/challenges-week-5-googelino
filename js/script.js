@@ -80,6 +80,10 @@ function selectTab(tabId) {
  */
 function toggleEmojis() {
     $('#emojis').toggle(); // #toggle
+    // hier soll die ganze emojis-list angezeigt werden, keine Ahnung wie; Idee:
+    // $('#emojis').require('emojis-list');
+    // var emojis = require('emojis-list');
+    // console.log(emojis[0]);
 }
 
 /**
@@ -127,10 +131,16 @@ function sendMessage() {
  */
 function createMessageElement(messageObject) {
     // #8 message properties
+    var storedObjects = new Array();
+    storedObjects.push(messageObject);
     var expiresIn = Math.round((messageObject.expiresOn - Date.now()) / 1000 / 60);
 
     // #8 message element
-    return '<div class="message'+
+    if (messageObject.text.length > 0){
+        // push message element to message array of current channel
+        // currentChannel.messages.push(messageObject);
+        // currentChannel.messageCount++;
+    return '<div style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);" class="message'+
         //this dynamically adds the class 'own' (#own) to the #message, based on the
         //ternary operator. We need () in order to not disrupt the return.
         (messageObject.own ? ' own' : '') +
@@ -140,21 +150,50 @@ function createMessageElement(messageObject) {
         messageObject.createdOn.toLocaleString() +
         '<em>' + expiresIn+ ' min. left</em></h3>' +
         '<p>' + messageObject.text + '</p>' +
-        '<button>+5 min.</button>' +
+        '<button class="accent">+5 min.</button>' +
         '</div>';
+    }
+    else {
+        alert("Messages cannot be empty.");
+        return;
+    }
 }
 
 
-function listChannels() {
+function listChannels(criterion) {
     // #8 channel onload
     //$('#channels ul').append("<li>New Channel</li>")
 
     // #8 five new channels
-    $('#channels ul').append(createChannelElement(yummy));
-    $('#channels ul').append(createChannelElement(sevencontinents));
-    $('#channels ul').append(createChannelElement(killerapp));
-    $('#channels ul').append(createChannelElement(firstpersononmars));
-    $('#channels ul').append(createChannelElement(octoberfest));
+    // $('#channels ul').append(createChannelElement(yummy));
+    // $('#channels ul').append(createChannelElement(sevencontinents));
+    // $('#channels ul').append(createChannelElement(killerapp));
+    // $('#channels ul').append(createChannelElement(firstpersononmars));
+    // $('#channels ul').append(createChannelElement(octoberfest));
+
+    // sort the channel array before displaying channels
+    // sort according to the function parameter criterion
+
+    //$("#cha").empty();
+    
+    switch (criterion){
+        case 1: channels.sort(compareNew);
+            break;
+        case 2: channels.sort(compareTrending);
+            break;
+        case 3: channels.sort(compareFavorites);
+            break;
+        default: channels.sort(compareNew);
+            break;
+    }
+    //$("#cha").empty();
+
+    // appending is easier with for loop, using an array for the channels:
+    for (var i=0; i<channels.length; i++){
+        $('#channels ul').append(createChannelElement(channels[i]));
+    }
+
+    // $("#cha").html(<div class="dot"> + </div>);
 }
 
 /**
@@ -192,4 +231,46 @@ function createChannelElement(channelObject) {
 
     // return the complete channel
     return channel;
+}
+
+
+
+// functions for sorting the channels
+// new above old: if a negative value is returned, the first argument is listed first while sorting
+function compareNew(channel1, channel2){
+    return (channel2.createdOn - channel1.createdOn);
+}
+
+// more above less: if a negative value is returned, the first argument is listed first while sorting
+function compareTrending(channel1, channel2){
+    return (channel2.messageCount - channel1.messageCount);
+}
+
+// starred above unstarred: if -1 is returned, the starred channel is listed above the unstarred
+function compareFavorites(channel1, channel2){
+    if ((channel1.starred == channel2.starred) || (channel1.starred && !channel2.starred)){
+        return -1;
+    }
+    else {
+        return 1;
+    }
+}
+
+function createChannel(){
+    $('#right-top').html('<h1 class="shadow--4dp"><input id="channelInput" type="text" placeholder="Type name of channel..." /><button id="abort" onclick="abort();">x abort</button><h1>');
+    $("#messages").empty();
+     // try to change arrow to create
+    //$('#send-button').html(<button id="send-button" class="accent" onclick="sendMessage()"><i class="fas fa-arrow-right"></i></button>);
+    //var sendbutton = $("send-button");
+    //sendbutton.text(sendbutton.data("text-swap"));
+    
+}
+
+function abort(){
+    $('#right-top').html('<h1 class="shadow--4dp"><span id="channel-name">#SevenContinents</span><small id="channel-location">by <strong>cheeses.yard.applies</strong></small><i class="fas fa-star" onclick="star()"></i></h1>');
+    // create message objects again -- error -- does not recognize the array 
+    for (i=0; i<storedObjects.length; i++){
+        alert(storedObjects[i]);
+        createMessageElement(storedObjects[i]);
+    }
 }

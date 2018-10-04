@@ -25,6 +25,18 @@ button, strong {
     text-transform: uppercase;
 }
 
+/*challenge 9: new button styles*/
+button {
+    height: auto;
+    padding: 16 px;
+    font-size: 14 px;
+    border: none;
+    border-radius: 8px;
+    margin: 8 px;
+    background-color: white;
+    color: black;
+}
+
 /* LAYOUT */
 
 #channels {
@@ -161,12 +173,8 @@ li.selected {
 }
 
 #tab-bar button, #chat-bar button {
-    background-color: white;
-    border: none;
-    font-size: 13px;
     width: 33%;
     height: 72px;
-    padding: 16px;
 
     /* flexify the buttons by growing them equally */
     flex-grow: 1;
@@ -199,7 +207,6 @@ li.selected {
     /* emoji menu */
     /* colors and borders */
     background-color:white;
-    border: 1px solid black;
 
     /* size & alignment */
     position: absolute;
@@ -235,7 +242,7 @@ li.selected {
 .message {
     width: 80%;
     margin-bottom: 8px;
-    margin-left: 2.5%;
+    margin-left: calc(20%-20px);
     position: relative;
 }
 
@@ -284,4 +291,77 @@ li.selected {
 
 .message.own {
     margin-left: 17.5%;
+    /*margin-left: calc(20%-20px);*/
 }
+
+/*color scheme for buttons*/
+
+.primary {
+    background-color: #3F51B5;
+    color: white;
+}
+
+.accent {
+    background-color: #CDDC39;
+    color: black;
+}
+
+/*shadows
+by: Scott Roa; https://stackoverflow.com/questions/30533055/calculating-shadow-values-for-all-material-design-elevations  */
+.shadow--2dp {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.shadow--3dp {
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+}
+.shadow--4dp {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+.shadow--6dp {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+}
+.shadow--8dp {
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+.shadow--16dp {
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+.shadow--24dp {
+    box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+}
+
+/*class definition for FAB - plus sign circle*/
+  .dot {
+    width: 56px;
+    height: 56px;
+    background-color:  #CDDC39;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  
+    font-size: 40px;
+    color: black;
+    text-align: center;
+    line-height: 56px;
+  
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+ }
+  
+ .dot:hover {
+    box-shadow: 0 6px 14px 0 #666;
+    transform: scale(1.05);
+ }
+
+ #abort {
+     position: absolute;
+     right: 16px;
+     padding: 12px;
+ }
+
+ #channelInput {
+     width: 80%;
+     height: 24px;
+ }
+
+ 
